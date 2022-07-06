@@ -62,14 +62,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <configuration>
-                    <jdbc>
-                        <driver>org.h2.Driver</driver>
-                        <url>jdbc:h2:~/test</url>
-                    </jdbc>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 

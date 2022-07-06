@@ -13,3 +13,5 @@ spring:
 #    init:
 #      mode: always
 jwt_secret: jwt_secret
+server:
+  port : 8081
