@@ -14,7 +14,7 @@ public class Team {
     private String workingHours;
 
     @OneToMany(mappedBy = "team")
-    private Set<User> tehnicians;
+    private Set<User> technicians;
 
     @OneToMany(mappedBy = "team")
     private Set<Job> jobs;
