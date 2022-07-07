@@ -1,11 +1,11 @@
-INSERT INTO role (id, ime) VALUES (1, 'ROLE_ADMIN');
-INSERT INTO role (id, ime) VALUES (2, 'ROLE_USER');
+INSERT INTO role (id, name) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO role (id, name) VALUES (2, 'ROLE_TECHNICIAN');
 
-INSERT INTO alat (id, naziv) VALUES (1, 'alat1');
-INSERT INTO alat (id, naziv) VALUES (2, 'alat2');
+INSERT INTO tool (id, name) VALUES (1, 'alat1');
+INSERT INTO tool (id, name) VALUES (2, 'alat2');
 
-INSERT INTO location (id, grad, ulica, broj) VALUES (1, 'grad1', 'ulica1', 5);
-INSERT INTO location (id, grad, ulica, broj) VALUES (2, 'grad2', 'ulica2', 3);
-INSERT INTO location (id, grad, ulica, broj) VALUES (3, 'grad3', 'ulica3', 17);
+INSERT INTO location (id, city, street, number) VALUES (1, 'grad1', 'ulica1', 5);
+INSERT INTO location (id, city, street, number) VALUES (2, 'grad2', 'ulica2', 3);
+INSERT INTO location (id, city, street, number) VALUES (3, 'grad3', 'ulica3', 17);
 
 
