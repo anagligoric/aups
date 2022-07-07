@@ -37,7 +37,7 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(body.getEmail(), body.getPassword());
             authManager.authenticate(authInputToken);
             User user = userService.findByEmail(body.getEmail());
-            String token = jwtUtil.generateToken(body.getEmail(), user.getRole().getIme());
+            String token = jwtUtil.generateToken(body.getEmail(), user.getRole().getName());
             return Collections.singletonMap("jwt-token", token);
         } catch (AuthenticationException authExc) {
             throw new CustomException("Invalid login credentials");
@@ -47,24 +47,24 @@ public class AuthService {
     @Transactional
     public Map<String, Object> register(User user) {
         userService.validateEmail(user.getEmail());
-        String encodedPass = passwordEncoder.encode(user.getLozinka());
-        user.setLozinka(encodedPass);
+        String encodedPass = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPass);
         user = userService.create(user);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getIme());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getName());
         return Collections.singletonMap("jwt-token", token);
     }
 
     @Transactional
     public Map<String, Object> registerUser(User user) {
         userService.validateEmail(user.getEmail());
-        String encodedPass = passwordEncoder.encode(user.getLozinka());
-        user.setLozinka(encodedPass);
-        if(user.getRole().getIme().equals("ROLE_ADMIN")){
+        String encodedPass = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPass);
+        if(user.getRole().getName().equals("ROLE_ADMIN")){
             throw new CustomException("You are not authorized to register as admin.");
         }
         user.setRole(roleService.getRoleById(2L));
         user = userService.create(user);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getIme());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getName());
         return Collections.singletonMap("jwt-token", token);
     }
 }

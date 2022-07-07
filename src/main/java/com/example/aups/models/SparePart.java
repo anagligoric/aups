@@ -1,19 +1,23 @@
 package com.example.aups.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-//@Table(name="roles")
-public class Role {
+public class SparePart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    public Role() {
+    @OneToMany(mappedBy = "sparePart")
+    private Set<DocumentSparePart> ocumentSparePart;
+
+    public SparePart() {
     }
 
-    public Role(Long id, String name) {
+    public SparePart(Long id, String name) {
         this.id = id;
         this.name = name;
     }

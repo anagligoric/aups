@@ -4,22 +4,22 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Alat {
+public class Tool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String naziv;
+    private String name;
 
-    @OneToMany(mappedBy = "alat")
-    private Set<AlatZaNalog> alatiZaNalog;
+    @OneToMany(mappedBy = "tool")
+    private Set<DocumentTools> documentTools;
 
-    public Alat() {
+    public Tool() {
 
     }
 
-    public Alat(Long id, String naziv) {
+    public Tool(Long id, String name) {
         this.id = id;
-        this.naziv = naziv;
+        this.name = name;
     }
 
     public Long getId() {
@@ -30,11 +30,11 @@ public class Alat {
         this.id = id;
     }
 
-    public String getNaziv() {
-        return naziv;
+    public String getName() {
+        return name;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
+    public void setName(String name) {
+        this.name = name;
     }
 }

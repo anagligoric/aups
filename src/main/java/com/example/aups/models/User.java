@@ -9,14 +9,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ime;
-    private String prezime;
+    private String firstName;
+    private String surname;
     private String email;
-    private String lozinka;
+    private String password;
 
     @ManyToOne
-    @JoinColumn(name="tim_id", referencedColumnName = "id")
-    private Tim tim;
+    @JoinColumn(name="team_id", referencedColumnName = "id")
+    private Team team;
 
     @ManyToOne
     @JoinColumn(name="role_id", nullable=false, referencedColumnName = "id")
@@ -30,28 +30,28 @@ public class User {
         this.id = id;
     }
 
-    public Tim getTim() {
-        return tim;
+    public Team getTim() {
+        return team;
     }
 
-    public void setTim(Tim tim) {
-        this.tim = tim;
+    public void setTim(Team team) {
+        this.team = team;
     }
 
-    public String getIme() {
-        return ime;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setIme(String ime) {
-        this.ime = ime;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getPrezime() {
-        return prezime;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setPrezime(String prezime) {
-        this.prezime = prezime;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -62,12 +62,12 @@ public class User {
         this.email = email;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Role getRole() {
