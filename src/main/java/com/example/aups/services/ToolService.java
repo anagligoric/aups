@@ -1,4 +1,5 @@
 package com.example.aups.services;
+
 import com.example.aups.exceptions.CustomException;
 import com.example.aups.models.Tool;
 import com.example.aups.repositories.ToolRepository;
@@ -21,8 +22,10 @@ public class ToolService {
         return toolRepository.findAll();
     }
 
-    public Tool findById(Long id) {
-        return toolRepository.findById(id).orElseThrow(() -> new CustomException("Tool with id " + id + " does not exist"));
+    @Transactional(readOnly = true)
+    public Tool getToolById(Long id) {
+        return toolRepository.findById(id)
+                .orElseThrow(() ->  new CustomException("Tool with id " + id + " does not exist."));
     }
 
     public Tool create(Tool tool) {
@@ -30,7 +33,6 @@ public class ToolService {
     }
 
 
-    @Transactional
     public Tool update(Long id, Tool tool) {
         if (toolRepository.findById(id).isEmpty()) {
             throw new CustomException("Tool with id " + id + " does not exist.");
@@ -38,7 +40,6 @@ public class ToolService {
         return toolRepository.save(tool);
     }
 
-    @Transactional
     public void delete(Long id) {
         if (toolRepository.findById(id).isEmpty()) {
             throw new CustomException("Tool with id " + id + " does not exist.");

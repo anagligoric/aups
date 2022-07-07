@@ -1,6 +1,7 @@
 package com.example.aups.controllers;
 
 import com.example.aups.models.Location;
+import com.example.aups.models.Tool;
 import com.example.aups.services.LocationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class LocationController {
     @GetMapping
     public ResponseEntity<List<Location>> getAllLocations() {
         return ResponseEntity.ok(locationService.getAllLocations());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
+        return ResponseEntity.ok(locationService.getLocationById(id));
     }
 
     @PostMapping

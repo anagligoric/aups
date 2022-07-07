@@ -30,6 +30,11 @@ public class UserService {
                 .orElseThrow(() -> new UserDoesNotExistException(id));
     }
 
+    @Transactional(readOnly = true)
+    public List<User> getAllTechnicians() {
+        return userRepository.findAllByRoleName("ROLE_TECHNICIAN");
+    }
+
     @Transactional
     public User create(User user) {
         return userRepository.save(user);

@@ -12,7 +12,7 @@ public class SparePart {
     private String name;
 
     @OneToMany(mappedBy = "sparePart")
-    private Set<DocumentSparePart> ocumentSparePart;
+    private Set<DocumentSparePart> documentSpareParts;
 
     public SparePart() {
     }

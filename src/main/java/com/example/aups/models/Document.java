@@ -31,7 +31,7 @@ public class Document {
     private Set<DocumentSparePart> documentSpareParts;
 
     @OneToMany(mappedBy = "document")
-    private Set<DocumentTools> documentTools;
+    private Set<DocumentTool> documentTools;
 
     public Document() {}
 

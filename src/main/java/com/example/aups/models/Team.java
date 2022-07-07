@@ -60,4 +60,19 @@ public class Team {
         this.workingHours = workingHours;
     }
 
+    public Set<User> getTechnicians() {
+        return technicians;
+    }
+
+    public void setTechnicians(Set<User> technicians) {
+        this.technicians = technicians;
+    }
+
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
+    }
 }

@@ -23,6 +23,11 @@ public class ToolController {
         return ResponseEntity.ok(toolService.getAllTools());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Tool> getToolById(@PathVariable Long id) {
+        return ResponseEntity.ok(toolService.getToolById(id));
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Tool> addTool(@RequestBody Tool tool){

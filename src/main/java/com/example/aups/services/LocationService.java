@@ -1,7 +1,9 @@
 package com.example.aups.services;
 
 import com.example.aups.exceptions.CustomException;
+import com.example.aups.exceptions.UserDoesNotExistException;
 import com.example.aups.models.Location;
+import com.example.aups.models.User;
 import com.example.aups.repositories.LocationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +24,16 @@ public class LocationService {
         return locationRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Location getLocationById(Long id) {
+        return locationRepository.findById(id)
+                .orElseThrow(() ->  new CustomException("Location with id " + id + " does not exist."));
+    }
+
     public Location create(Location location) {
         return locationRepository.save(location);
     }
 
-
-    @Transactional
     public Location update(Long id, Location location) {
         if (locationRepository.findById(id).isEmpty()) {
             throw new CustomException("Location with id " + id + " does not exist.");
@@ -35,7 +41,6 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-    @Transactional
     public void delete(Long id) {
         if (locationRepository.findById(id).isEmpty()) {
             throw new CustomException("Location with id " + id + " does not exist.");

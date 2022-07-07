@@ -11,7 +11,7 @@ public class Tool {
     private String name;
 
     @OneToMany(mappedBy = "tool")
-    private Set<DocumentTools> documentTools;
+    private Set<DocumentTool> documentTools;
 
     public Tool() {
 

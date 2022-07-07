@@ -3,7 +3,7 @@ package com.example.aups.models;
 import javax.persistence.*;
 
 @Entity
-public class DocumentTools {
+public class DocumentTool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +19,9 @@ public class DocumentTools {
     @JoinColumn(name="document_id", referencedColumnName = "id")
     private Document document;
 
-    public DocumentTools() {}
+    public DocumentTool() {}
 
-    public DocumentTools(Long id, Integer amount) {
+    public DocumentTool(Long id, Integer amount) {
         this.id = id;
         this.amount = amount;
     }
