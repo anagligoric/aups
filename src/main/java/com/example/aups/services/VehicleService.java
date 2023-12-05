@@ -1,7 +1,6 @@
 package com.example.aups.services;
 
 import com.example.aups.exceptions.CustomException;
-import com.example.aups.models.Team;
 import com.example.aups.models.Vehicle;
 import com.example.aups.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;

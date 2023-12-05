@@ -12,10 +12,6 @@ public class Job {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="team_id", referencedColumnName = "id")
-    private Team team;
-
-    @ManyToOne
     @JoinColumn(name="client_id", referencedColumnName = "id")
     private Client client;
 
@@ -25,11 +21,10 @@ public class Job {
 
     public Job() {}
 
-    public Job(Long id, String type, String description, Team team, Client client) {
+    public Job(Long id, String type, String description, Client client) {
         this.id = id;
         this.type = type;
         this.description = description;
-        this.team = team;
         this.client = client;
     }
 
@@ -55,14 +50,6 @@ public class Job {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Team getTim() {
-        return team;
-    }
-
-    public void setTim(Team team) {
-        this.team = team;
     }
 
     public Client getKorisnik() {

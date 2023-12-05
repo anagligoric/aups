@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        http.headers().frameOptions().disable();
+        http.headers().frameOptions().sameOrigin();
     }
 
     @Bean

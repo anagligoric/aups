@@ -8,19 +8,28 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String firstName;
     private String surname;
     private String email;
     private String password;
 
     @ManyToOne
-    @JoinColumn(name="team_id", referencedColumnName = "id")
-    private Team team;
-
-    @ManyToOne
     @JoinColumn(name="role_id", nullable=false, referencedColumnName = "id")
     private Role role;
+
+    public User(Long id, String firstName, String surname, String email, String password, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {
+
+    }
+
 
     public Long getId() {
         return id;
@@ -28,14 +37,6 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Team getTim() {
-        return team;
-    }
-
-    public void setTim(Team team) {
-        this.team = team;
     }
 
     public String getFirstName() {

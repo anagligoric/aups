@@ -38,7 +38,7 @@ public class AuthService {
             authManager.authenticate(authInputToken);
             User user = userService.findByEmail(body.getEmail());
             String token = jwtUtil.generateToken(body.getEmail(), user.getRole().getName());
-            return Collections.singletonMap("jwt-token", token);
+            return Collections.singletonMap("token", token);
         } catch (AuthenticationException authExc) {
             throw new CustomException("Invalid login credentials");
         }
@@ -51,7 +51,7 @@ public class AuthService {
         user.setPassword(encodedPass);
         user = userService.create(user);
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getName());
-        return Collections.singletonMap("jwt-token", token);
+        return Collections.singletonMap("token", token);
     }
 
     @Transactional
@@ -65,6 +65,6 @@ public class AuthService {
         user.setRole(roleService.getRoleById(2L));
         user = userService.create(user);
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getName());
-        return Collections.singletonMap("jwt-token", token);
+        return Collections.singletonMap("token", token);
     }
 }

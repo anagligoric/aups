@@ -28,9 +28,6 @@ public class Document {
     private Set<Vehicle> vehicles;
 
     @OneToMany(mappedBy = "document")
-    private Set<DocumentSparePart> documentSpareParts;
-
-    @OneToMany(mappedBy = "document")
     private Set<DocumentTool> documentTools;
 
     public Document() {}
