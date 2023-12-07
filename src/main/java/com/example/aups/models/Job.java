@@ -11,6 +11,8 @@ public class Job {
     private String type;
     private String description;
 
+    private Status status;
+
     @ManyToOne
     @JoinColumn(name="client_id", referencedColumnName = "id")
     private Client client;
@@ -21,11 +23,17 @@ public class Job {
 
     public Job() {}
 
-    public Job(Long id, String type, String description, Client client) {
+    private enum Status{
+        PENDING,
+        IN_PROGRESS,
+        DONE
+    }
+    public Job(Long id, String type, String description, Client client, Status status) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.client = client;
+        this.status = status;
     }
 
     public Long getId() {
