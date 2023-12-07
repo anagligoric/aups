@@ -3,6 +3,7 @@ package com.example.aups.controllers;
 import com.example.aups.models.LoginCredentials;
 import com.example.aups.models.User;
 import com.example.aups.services.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody LoginCredentials body) {
-        return authService.login(body);
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginCredentials body) {
+        return ResponseEntity.ok().body(authService.login(body));
     }
 }

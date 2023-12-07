@@ -33,10 +33,10 @@ public class AuthService {
     @Transactional
     public Map<String, Object> login(LoginCredentials body) {
         try {
+            User user = userService.findByEmail(body.getEmail());
             UsernamePasswordAuthenticationToken authInputToken =
                     new UsernamePasswordAuthenticationToken(body.getEmail(), body.getPassword());
             authManager.authenticate(authInputToken);
-            User user = userService.findByEmail(body.getEmail());
             String token = jwtUtil.generateToken(body.getEmail(), user.getRole().getName());
             return Collections.singletonMap("token", token);
         } catch (AuthenticationException authExc) {
