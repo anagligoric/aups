@@ -1,7 +1,14 @@
 spring:
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
   jpa:
-#    defer-datasource-initialization: true
-#    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
   datasource:
@@ -9,9 +16,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     password: postgres
     username: postgres
-#  sql:
-#    init:
-#      mode: always
 jwt_secret: jwt_secret
 server:
   port : 8081

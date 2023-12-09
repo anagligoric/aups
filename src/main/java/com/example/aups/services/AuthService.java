@@ -1,12 +1,16 @@
 package com.example.aups.services;
 
+import com.example.aups.models.UserDto;
 import com.example.aups.exceptions.CustomException;
 import com.example.aups.models.LoginCredentials;
+import com.example.aups.models.MailHeader;
 import com.example.aups.models.User;
 import com.example.aups.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +23,17 @@ public class AuthService {
     private final AuthenticationManager authManager;
     private final JwtUtil jwtUtil;
     private final UserService userService;
-    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final RoleService roleService;
 
-    public AuthService(AuthenticationManager authManager, JwtUtil jwtUtil, UserService userService, RoleService roleService, PasswordEncoder passwordEncoder){
+    public AuthService(AuthenticationManager authManager, JwtUtil jwtUtil, UserService userService, PasswordEncoder passwordEncoder, EmailService emailService, RoleService roleService) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.userService = userService;
-        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.roleService = roleService;
     }
 
     @Transactional
@@ -45,26 +51,15 @@ public class AuthService {
     }
 
     @Transactional
-    public Map<String, Object> register(User user) {
-        userService.validateEmail(user.getEmail());
-        String encodedPass = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPass);
-        user = userService.create(user);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getName());
-        return Collections.singletonMap("token", token);
-    }
-
-    @Transactional
-    public Map<String, Object> registerUser(User user) {
-        userService.validateEmail(user.getEmail());
-        String encodedPass = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPass);
-        if(user.getRole().getName().equals("ROLE_ADMIN")){
-            throw new CustomException("You are not authorized to register as admin.");
-        }
-        user.setRole(roleService.getRoleById(2L));
-        user = userService.create(user);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().getName());
-        return Collections.singletonMap("token", token);
+    public UserDto registerUser(UserDto userDto) {
+        userService.validateEmail(userDto.getEmail());
+        String randomPassword = RandomPasswordGenerator.generatePassword(12);
+        String encodedPass = passwordEncoder.encode(randomPassword);
+        User user = new User(userDto.getFirstName(), userDto.getSurname(), userDto.getEmail(), encodedPass, roleService.getRoleById(userDto.getRoleId()));
+        userService.create(user);
+        emailService.sendTextEmailNoAttachment(new MailHeader(userDto.getEmail(), "tools@service.com", "New Account"),
+                "New account has been created for user ".concat( userDto.getEmail()).concat(" with password ").concat(randomPassword).concat("\n")
+                        .concat("Please visit Tools service app and login"));
+        return userDto;
     }
 }

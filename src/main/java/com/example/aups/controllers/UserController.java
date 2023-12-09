@@ -1,5 +1,6 @@
 package com.example.aups.controllers;
 
+import com.example.aups.models.UserDto;
 import com.example.aups.models.User;
 import com.example.aups.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -46,8 +47,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        userService.update(id, user);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+        userService.update(id, userDto);
+        return ResponseEntity.ok(userDto);
     }
 }

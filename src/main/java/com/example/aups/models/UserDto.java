@@ -1,43 +1,30 @@
 package com.example.aups.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name="\"user\"")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDto {
     private Long id;
     private String firstName;
     private String surname;
     private String email;
-    private String password;
+    private Long roleId;
 
-    @ManyToOne
-    @JoinColumn(name="role_id", nullable=false, referencedColumnName = "id")
-    private Role role;
-
-    public User(String firstName, String surname, String email, String password, Role role) {
-        this.firstName = firstName;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    public User(Long id, String firstName, String surname, String email, String password, Role role) {
+    public UserDto(Long id, String firstName, String surname, String email, Long roleId) {
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
-        this.password = password;
-        this.role = role;
+        this.roleId = roleId;
     }
 
-    public User() {
-
+    public UserDto(String firstName, String surname, String email, Long roleId) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.roleId = roleId;
     }
 
+    public UserDto() {
+
+    }
 
     public Long getId() {
         return id;
@@ -71,19 +58,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

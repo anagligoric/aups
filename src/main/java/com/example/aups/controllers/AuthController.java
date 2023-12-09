@@ -1,7 +1,7 @@
 package com.example.aups.controllers;
 
+import com.example.aups.models.UserDto;
 import com.example.aups.models.LoginCredentials;
-import com.example.aups.models.User;
 import com.example.aups.services.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,14 +22,9 @@ public class AuthController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody User user) {
-        return authService.register(user);
-    }
-
     @PostMapping("/registeruser")
-    public Map<String, Object> registerUser(@RequestBody User user) {
-        return authService.registerUser(user);
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto user) {
+        return ResponseEntity.ok().body(authService.registerUser(user));
     }
 
     @PostMapping("/login")

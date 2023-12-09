@@ -1,5 +1,6 @@
 package com.example.aups.services;
 
+import com.example.aups.models.UserDto;
 import com.example.aups.exceptions.CustomException;
 import com.example.aups.exceptions.UserDoesNotExistException;
 import com.example.aups.exceptions.UserWithEmailDoesNotExistException;
@@ -9,14 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
-    public UserService(UserRepository userRepository) {
-
+    public UserService(UserRepository userRepository, RoleService roleService) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
     }
 
     @Transactional(readOnly = true)
@@ -41,12 +44,20 @@ public class UserService {
     }
 
     @Transactional
-    public User update(Long id, User user) {
+    public UserDto update(Long id, UserDto userDto) {
+        Optional<User> user = userRepository.findById(id);
+        user.ifPresentOrElse(u -> {
+                    u.setFirstName(userDto.getFirstName());
+                    u.setSurname(userDto.getSurname());
+                    u.setEmail(userDto.getEmail());
+                    u.setRole(roleService.getRoleById(userDto.getRoleId()));
+                    userRepository.save(u);
+                },
+                () -> {
+                throw new UserDoesNotExistException(id);
+            });
 
-        if (userRepository.findById(id).isEmpty()) {
-            throw new UserDoesNotExistException(id);
-        }
-        return userRepository.save(user);
+        return userDto;
     }
 
     @Transactional
@@ -65,7 +76,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public void validateEmail(String email){
-        if( userRepository.findByEmail(email).isPresent()){
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new CustomException("Email is already in use.");
         }
     }

@@ -2,7 +2,6 @@ package com.example.aups.services;
 
 import com.example.aups.exceptions.CustomException;
 import com.example.aups.models.Role;
-import com.example.aups.models.User;
 import com.example.aups.repositories.RoleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,7 @@ public class RoleService {
     @Transactional(readOnly = true)
     public Role getRoleById(Long id) {
         return roleRepository.findById(id)
-                .orElseThrow(() -> new CustomException("User with" + id + "does not exist."));
+                .orElseThrow(() -> new CustomException("Role with" + id + "does not exist."));
     }
 
     @Transactional
