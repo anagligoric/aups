@@ -17,13 +17,15 @@ public class JwtUtil {
     @Value("${jwt_secret}")
     private String secret;
 
-    public String generateToken(String email, String role) throws IllegalArgumentException, JWTCreationException {
+    public String generateToken(String email, String role, String firstName, String surname) throws IllegalArgumentException, JWTCreationException {
         return JWT.create()
                 .withSubject("User Details")
                 .withClaim("email", email)
                 .withIssuedAt(new Date())
                 .withIssuer("aups")
                 .withClaim("role", role)
+                .withClaim("firstName", firstName)
+                .withClaim("surname", surname)
                 .sign(Algorithm.HMAC256(secret));
     }
 

@@ -41,8 +41,8 @@ public class DatabaseInitializer implements CommandLineRunner {
     );
 
     private static final List<User> USERS = Arrays.asList(
-            new User(1L, "admin", "Admin", "admin@mycompany.com", "admin", ROLES.get(0)),
-            new User(2L, "user", "User", "user@mycompany.com", "user", ROLES.get(1))
+            new User(1L, "Owner of", "Admin", "admin@mycompany.com", "admin", ROLES.get(0)),
+            new User(2L, "Owner of", "User", "user@mycompany.com", "user", ROLES.get(1))
     );
 
 }

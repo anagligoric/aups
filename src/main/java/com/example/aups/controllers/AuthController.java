@@ -21,12 +21,6 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/registeruser")
-    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto user) {
-        return ResponseEntity.ok().body(authService.registerUser(user));
-    }
-
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginCredentials body) {
         return ResponseEntity.ok().body(authService.login(body));

@@ -1,25 +1,34 @@
 package com.example.aups.services;
 
+import com.example.aups.models.MailHeader;
+import com.example.aups.models.ResetPasswordDto;
 import com.example.aups.models.UserDto;
 import com.example.aups.exceptions.CustomException;
 import com.example.aups.exceptions.UserDoesNotExistException;
 import com.example.aups.exceptions.UserWithEmailDoesNotExistException;
 import com.example.aups.models.User;
 import com.example.aups.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public UserService(UserRepository userRepository, RoleService roleService) {
+
+    public UserService(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Transactional(readOnly = true)
@@ -58,6 +67,40 @@ public class UserService {
             });
 
         return userDto;
+    }
+
+    @Transactional
+    public UserDto registerUser(UserDto userDto) {
+        validateEmail(userDto.getEmail());
+        String randomPassword = RandomPasswordGenerator.generatePassword(12);
+        String encodedPass = passwordEncoder.encode(randomPassword);
+        User user = new User(userDto.getFirstName(), userDto.getSurname(), userDto.getEmail(), encodedPass, roleService.getRoleById(userDto.getRoleId()));
+        userRepository.save(user);
+        emailService.sendTextEmailNoAttachment(new MailHeader(userDto.getEmail(), "tools@service.com", "New Account"),
+                "New account has been created for user ".concat( userDto.getEmail()).concat(" with password ").concat(randomPassword).concat("\n")
+                        .concat("Please visit Tools service app and login"));
+        return userDto;
+    }
+
+    @Transactional
+    public void resetPassword(String email, ResetPasswordDto resetPasswordDto){
+        if (!Objects.equals(email, resetPasswordDto.getUsername())) {
+            throw new CustomException("You are not allowed to change password for this user.");
+        }
+
+        Optional<User> user = userRepository.findByEmail(email);
+        user.ifPresentOrElse(u -> {
+                    String encodedNewPass = passwordEncoder.encode(resetPasswordDto.getNewPassword());
+                    if (!passwordEncoder.matches(resetPasswordDto.getOldPassword(), u.getPassword())) {
+                        throw new CustomException("Old password does not match.");
+                    }
+                    u.setPassword(encodedNewPass);
+                    userRepository.save(u);
+                },
+                () -> {
+                    throw new UserDoesNotExistException(email);
+                });
+
     }
 
     @Transactional
