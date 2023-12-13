@@ -13,7 +13,6 @@ public class Document {
     private Long id;
     private String number;
     private Date creationDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Long price;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -71,11 +70,11 @@ public class Document {
         this.price = price;
     }
 
-    public Job getPosao() {
+    public Job getJob() {
         return job;
     }
 
-    public void setPosao(Job job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 }

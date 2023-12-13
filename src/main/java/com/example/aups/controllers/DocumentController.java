@@ -36,7 +36,7 @@ public class DocumentController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Document> updateDocument(@PathVariable("id") Long id, @RequestBody Document document) {
         documentService.update(id, document);
         return ResponseEntity.ok(document);

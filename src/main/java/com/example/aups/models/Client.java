@@ -1,5 +1,7 @@
 package com.example.aups.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,8 +17,8 @@ public class Client {
     private String city;
     private String street;
     private Integer number;
-    @OneToMany(mappedBy = "client")
-    private Set<Job> jobs;
+//    @OneToMany(mappedBy = "client")
+//    private Set<Job> jobs;
 
     public Client() {}
 
@@ -62,13 +64,13 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public Set<Job> getJobs() {
-        return jobs;
-    }
-
-    public void setJobs(Set<Job> poslovi) {
-        this.jobs = poslovi;
-    }
+//    public Set<Job> getJobs() {
+//        return jobs;
+//    }
+//
+//    public void setJobs(Set<Job> poslovi) {
+//        this.jobs = poslovi;
+//    }
 
     public String getCity() {
         return city;

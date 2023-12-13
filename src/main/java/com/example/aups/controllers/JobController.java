@@ -29,14 +29,14 @@ public class JobController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Job> addJob(@RequestBody Job job){
         jobService.create(job);
         return ResponseEntity.ok(job);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Job> updateJob(@PathVariable("id") Long id, @RequestBody Job job) {
         jobService.update(id, job);
         return ResponseEntity.ok(job);

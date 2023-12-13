@@ -1,5 +1,7 @@
 package com.example.aups.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,22 +20,21 @@ public class Job {
     private Client client;
 
 
-    @OneToOne(mappedBy = "job")
-    private Document document;
+//    @OneToOne(mappedBy = "job")
+//    private Document document;
 
     public Job() {}
 
-    private enum Status{
+    public enum Status{
         PENDING,
         IN_PROGRESS,
         DONE
     }
-    public Job(Long id, String type, String description, Client client, Status status) {
+    public Job(Long id, String type, String description, Client client) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.client = client;
-        this.status = status;
     }
 
     public Long getId() {
@@ -60,19 +61,19 @@ public class Job {
         this.description = description;
     }
 
-    public Client getKorisnik() {
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Client getClient() {
         return client;
     }
 
-    public void setKorisnik(Client client) {
+    public void setClient(Client client) {
         this.client = client;
-    }
-
-    public Document getNalog() {
-        return document;
-    }
-
-    public void setNalog(Document document) {
-        this.document = document;
     }
 }
