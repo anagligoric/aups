@@ -19,31 +19,37 @@ public class DocumentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Document>> getAllDocuments() {
         return ResponseEntity.ok(documentService.getAllDocuments());
     }
 
+    @GetMapping("/my/{email}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
+    public ResponseEntity<List<Document>> getMyDocuments(@PathVariable String email) {
+        return ResponseEntity.ok(documentService.getMyDocuments(email));
+    }
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
     public ResponseEntity<Document> getDocumentById(@PathVariable Long id) {
         return ResponseEntity.ok(documentService.getDocumentById(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
     public ResponseEntity<Document> addDocument(@RequestBody Document document){
-        documentService.create(document);
-        return ResponseEntity.ok(document);
+        return ResponseEntity.ok(documentService.create(document));
     }
 
     @PutMapping("/{id}")
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
     public ResponseEntity<Document> updateDocument(@PathVariable("id") Long id, @RequestBody Document document) {
-        documentService.update(id, document);
-        return ResponseEntity.ok(document);
+        return ResponseEntity.ok(documentService.update(id, document));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDocument(@PathVariable("id") Long id) {
         documentService.delete(id);

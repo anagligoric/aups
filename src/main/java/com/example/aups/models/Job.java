@@ -1,6 +1,6 @@
 package com.example.aups.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.aups.enums.JobStatus;
 
 import javax.persistence.*;
 
@@ -9,32 +9,33 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String type;
     private String description;
-
-    private Status status;
+    private JobStatus status;
 
     @ManyToOne
     @JoinColumn(name="client_id", referencedColumnName = "id")
     private Client client;
 
-
-//    @OneToOne(mappedBy = "job")
-//    private Document document;
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
 
     public Job() {}
 
-    public enum Status{
-        PENDING,
-        IN_PROGRESS,
-        DONE
-    }
     public Job(Long id, String type, String description, Client client) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.client = client;
+    }
+
+    public Job(String type, String description, JobStatus status, Client client, User user) {
+        this.type = type;
+        this.description = description;
+        this.status = status;
+        this.client = client;
+        this.user = user;
     }
 
     public Long getId() {
@@ -61,11 +62,11 @@ public class Job {
         this.description = description;
     }
 
-    public Status getStatus() {
+    public JobStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(JobStatus status) {
         this.status = status;
     }
 
@@ -75,5 +76,13 @@ public class Job {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

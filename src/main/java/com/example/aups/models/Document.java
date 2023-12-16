@@ -1,9 +1,8 @@
 package com.example.aups.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,15 +18,17 @@ public class Document {
     @JoinColumn(name = "job_id", referencedColumnName = "id")
     private Job job;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "job_plan_id", referencedColumnName = "id")
-    private JobPlan jobPlan;
+    @ManyToOne
+    @JoinColumn(name="vehicle_id", referencedColumnName = "id")
+    private Vehicle vehicle;
 
-    @OneToMany(mappedBy = "document")
-    private Set<Vehicle> vehicles;
-
-    @OneToMany(mappedBy = "document")
-    private Set<DocumentTool> documentTools;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "document_tools",
+            joinColumns = @JoinColumn(name = "document_id"),
+            inverseJoinColumns = @JoinColumn(name = "tool_id")
+    )
+    private Set<Tool> tools = new HashSet<>();
 
     public Document() {}
 
@@ -36,6 +37,31 @@ public class Document {
         this.number = number;
         this.creationDate = creationDate;
         this.price = price;
+    }
+
+    public Document(Long id, String number, Date creationDate, Long price, Job job, Vehicle vehicle) {
+        this.id = id;
+        this.number = number;
+        this.creationDate = creationDate;
+        this.price = price;
+        this.job = job;
+        this.vehicle = vehicle;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public Set<Tool> getTools() {
+        return tools;
+    }
+
+    public void setTools(Set<Tool> tools) {
+        this.tools = tools;
     }
 
     public Long getId() {

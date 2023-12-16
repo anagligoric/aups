@@ -1,6 +1,7 @@
 package com.example.aups.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Vehicle {
@@ -14,20 +15,15 @@ public class Vehicle {
 
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name="document_id", referencedColumnName = "id")
-    private Document document;
-
     public Vehicle() {
 
     }
 
-    public Vehicle(Long id, String name, String licencePlate, String type, Document document) {
+    public Vehicle(Long id, String name, String licencePlate, String type) {
         this.id = id;
         this.name = name;
         this.licencePlate = licencePlate;
         this.type = type;
-        this.document = document;
     }
 
     public Long getId() {
@@ -60,13 +56,5 @@ public class Vehicle {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Document getNalog() {
-        return document;
-    }
-
-    public void setNalog(Document document) {
-        this.document = document;
     }
 }

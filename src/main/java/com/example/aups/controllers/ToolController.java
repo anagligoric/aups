@@ -19,31 +19,33 @@ public class ToolController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
     public ResponseEntity<List<Tool>> getAllTools() {
         return ResponseEntity.ok(toolService.getAllTools());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Tool> getToolById(@PathVariable Long id) {
         return ResponseEntity.ok(toolService.getToolById(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Tool> addTool(@RequestBody Tool tool){
         toolService.create(tool);
         return ResponseEntity.ok(tool);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Tool> updateTool(@PathVariable("id") Long id, @RequestBody Tool tool) {
         toolService.update(id, tool);
         return ResponseEntity.ok(tool);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTool(@PathVariable("id") Long id) {
         toolService.delete(id);

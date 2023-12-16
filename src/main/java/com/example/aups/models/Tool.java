@@ -1,6 +1,7 @@
 package com.example.aups.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,8 +11,8 @@ public class Tool {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "tool")
-    private Set<DocumentTool> documentTools;
+    @ManyToMany(mappedBy = "tools")
+    private Set<Document> students = new HashSet<>();
 
     public Tool() {
 

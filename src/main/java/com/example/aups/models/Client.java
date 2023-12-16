@@ -1,9 +1,9 @@
 package com.example.aups.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Client {
@@ -17,8 +17,6 @@ public class Client {
     private String city;
     private String street;
     private Integer number;
-//    @OneToMany(mappedBy = "client")
-//    private Set<Job> jobs;
 
     public Client() {}
 
@@ -63,14 +61,6 @@ public class Client {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-//    public Set<Job> getJobs() {
-//        return jobs;
-//    }
-//
-//    public void setJobs(Set<Job> poslovi) {
-//        this.jobs = poslovi;
-//    }
 
     public String getCity() {
         return city;

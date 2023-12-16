@@ -39,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping("/technicians")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> findUserById() {
+    @PreAuthorize("hasAnyRole('ADMIN', 'TECHNICIAN')")
+    public ResponseEntity<List<UserDto>> findAllTechnicians() {
         return ResponseEntity.ok(userService.getAllTechnicians());
     }
 
@@ -71,8 +71,8 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto user) {
         return ResponseEntity.ok().body(userService.registerUser(user));
     }

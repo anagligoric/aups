@@ -43,8 +43,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<User> getAllTechnicians() {
-        return userRepository.findAllByRoleName("ROLE_TECHNICIAN");
+    public List<UserDto> getAllTechnicians() {
+        return userRepository.findAllByRoleName("ROLE_TECHNICIAN").stream()
+                .map(technician -> new UserDto(technician.getId(),
+                        technician.getFirstName(),
+                        technician.getSurname(),
+                        technician.getEmail(),
+                        technician.getRole().getId())).toList();
     }
 
     @Transactional
